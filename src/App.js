@@ -10,7 +10,7 @@ class App extends Component {
         <Main />
       </div>
     );
-  }
-}
+  } // end-render
+} // end-class
 
 export default App;
