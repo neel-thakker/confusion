@@ -32,7 +32,9 @@ class Main extends Component {
 
     const HomePage = () => {
       return(
-          <Home 
+          <Home dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+                leader={this.state.leaders.filter((dish) => dish.featured)[0]}
+                promotion={this.state.promotions.filter((dish) => dish.featured)[0]} 
           />
       );
     }
