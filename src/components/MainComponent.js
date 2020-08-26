@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Menu from './Menu_functionalComponent';
 import DishDetail from './Dishdetail_functionalComponent';
+import Contact from './ContactUsComponent';
 import { DISHES } from '../shared/dishes';
+import { COMMENTS } from '../shared/comments';
+import { LEADERS } from '../shared/leaders';
+import { PROMOTIONS } from '../shared/promotions';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
@@ -13,6 +17,9 @@ class Main extends Component {
     super(props);
     this.state = {
         dishes: DISHES,
+        comments: COMMENTS,
+        promotions: PROMOTIONS,
+        leaders: LEADERS,
         selectedDish: null
     };
   }
@@ -45,6 +52,7 @@ class Main extends Component {
           <Switch>
               <Route path='/home' component={HomePage} />
               <Route exact path='/menu' component={MenuPage} />
+              <Route exact path='/contactUs' component={Contact} />
               <Redirect to="/home" />
           </Switch>
         <Footer />

@@ -16,7 +16,7 @@ import { Card, CardImg, CardText, CardBody,
         );
   
     }
-  
+
     function whichMonth(str) {
         let month = parseInt(str.substring(5,7));
 
