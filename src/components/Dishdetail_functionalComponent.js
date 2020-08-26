@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardImg, CardText, CardBody,
-    CardTitle } from 'reactstrap';
+    CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
     function RenderDish({dish}) { 
         return(
@@ -8,8 +9,8 @@ import { Card, CardImg, CardText, CardBody,
                 <Card>
                     <CardImg top src={dish.image} alt={dish.name} />
                     <CardBody>
-                    <CardTitle><strong>{dish.name}</strong></CardTitle>
-                    <CardText>{dish.description}</CardText>
+                        <CardTitle><strong>{dish.name}</strong></CardTitle>
+                        <CardText>{dish.description}</CardText>
                     </CardBody>
                 </Card>
             </div>
@@ -47,35 +48,49 @@ import { Card, CardImg, CardText, CardBody,
         }
     }
     
-    function RenderComments({dish}) {
-        const replies =  dish.comments.map( (comet) => {
+    function RenderComments({comments}) {
+        const replies =  comments.map( (comet) => {
             return (
-                <div className="list-unstyled" tag="li" key={comet.id}>
-                    <div>{comet.comment}</div><br></br>
-                    <div>-- {comet.author} , {whichMonth(comet.date)} {comet.date.substring(8,10)},{comet.date.substring(0,4)}</div><br></br>
-                </div>
+                    <div className="list-unstyled" tag="li" key={comet.id}>
+                        <div>{comet.comment}</div><br></br>
+                        <div>-- {comet.author} , {whichMonth(comet.date)} {comet.date.substring(8,10)},{comet.date.substring(0,4)}</div><br></br>
+                    </div>
             );
         });
 
         return (
-            <div tag="ul">{replies}</div>
+            <div>
+                <h1>Comments</h1>
+                <div tag="ul">{replies}</div>
+            </div>
+
         );
     }
   
     const  DishDetail = (props) => {
         if (props.dish != null) {
 
-            return(
+            return (
                 <div className="container">
-                    <div className="row">
-                        <div className="col-12 col-md-5 m-1">
-                            {RenderDish(props)}
-                        </div>
-                        <div className="col-12 col-md-5 m-1">
-                            <div><h4>Comments</h4></div>
-                            <div>{RenderComments(props)}</div>
-                        </div>
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>                
+                </div>
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        <RenderDish dish={props.dish} />
                     </div>
+                    <div className="col-12 col-md-5 m-1">
+                        <RenderComments comments={props.comments} />
+                    </div>
+                </div>
                 </div>
             );
 
