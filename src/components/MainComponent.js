@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Menu from './Menu_functionalComponent';
 import DishDetail from './Dishdetail_functionalComponent';
 import Contact from './ContactUsComponent';
+import About from './AboutComponent';
 import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
 import { LEADERS } from '../shared/leaders';
@@ -49,6 +50,12 @@ class Main extends Component {
       );
     };
 
+    const AboutPage = () => {
+      return (
+        <About leaders={this.state.leaders} />
+      );
+    }
+
     return (
       <div>
         <Header />
@@ -56,7 +63,8 @@ class Main extends Component {
               <Route path='/home' component={HomePage} />
               <Route exact path='/menu' component={MenuPage} />
               <Route path='/menu/:dishId' component={DishDetailPage} />
-              <Route exact path='/contactUs' component={Contact} />
+              <Route path='/aboutus' component={AboutPage} />
+              <Route exact path='/contactus' component={Contact} />
               <Redirect to="/home" />
           </Switch>
         <Footer />
