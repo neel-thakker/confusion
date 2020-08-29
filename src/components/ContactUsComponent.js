@@ -39,6 +39,7 @@ class Contact extends Component {
         event.preventDefault();
     }
 
+    /*
     validate(firstname, lastname, telnum, email) {
         const errors = {
             firstname: '',
@@ -66,10 +67,10 @@ class Contact extends Component {
 
         return errors;
     }
-
+    //*/
     render() {
 
-        const errors = this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email);
+        // const errors = this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email);
 
         return(
             <div className="container">

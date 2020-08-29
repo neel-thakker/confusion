@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody,
-    CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+    CardTitle, Breadcrumb, BreadcrumbItem, Button,
+     Modal, ModalHeader, ModalBody, Label } from 'reactstrap';
+import { Control, LocalForm, Errors, Row, Col } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 
     function RenderDish({dish}) { 
@@ -15,38 +17,123 @@ import { Link } from 'react-router-dom';
                 </Card>
             </div>
         );
-  
     }
 
     function whichMonth(str) {
         let month = parseInt(str.substring(5,7));
 
-        if(month==1) {
+        if(month===1) {
             return "Jan";
-        } else if(month==2) {
+        } else if(month===2) {
             return "Feb";
-        } else if(month==3) {
+        } else if(month===3) {
             return "Mar";
-        } else if(month==4) {
+        } else if(month===4) {
             return "Apr";
-        } else if(month==5) {
+        } else if(month===5) {
             return "May";
-        } else if(month==6) {
+        } else if(month===6) {
             return "Jun";
-        } else if(month==7) {
+        } else if(month===7) {
             return "Jul";
-        } else if(month==8) {
+        } else if(month===8) {
             return "Aug";
-        } else if(month==9) {
+        } else if(month===9) {
             return "Sep";
-        } else if(month==10) {
+        } else if(month===10) {
             return "Oct";
-        } else if(month==11) {
+        } else if(month===11) {
             return "Nov";
-        } else if(month==12) {
+        } else if(month===12) {
             return "Dec";
         }
     }
+
+    const required = (val) => val && val.length;
+    const maxLength = (len) => (val) => !(val) || (val.length <= len);
+    const minLength = (len) => (val) => val && (val.length >= len);
+    const isNumber = (val) => !isNaN(Number(val));
+    const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+    
+    class CommentForm extends Component {
+
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                isSubmitCommentOpen : false
+            }
+
+            this.toggleSubmitCommentModal = this.toggleSubmitCommentModal.bind(this);
+            this.handleComment = this.handleComment.bind(this);
+        }
+
+        toggleSubmitCommentModal() {
+            this.setState({
+              isSubmitCommentOpen: !this.state.isSubmitCommentOpen
+            });
+        }
+
+        handleComment(values) {
+
+            this.toggleSubmitCommentModal();
+
+            console.log('Current State is: ' + JSON.stringify(values));
+            alert('Current State is: ' + JSON.stringify(values));
+
+            this.toggleSubmitCommentModal();
+        }
+
+        render() {
+            return ( 
+                <div> 
+                    <Button outline onClick={this.toggleSubmitCommentModal}><span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
+                    <Modal isOpen={this.state.isSubmitCommentOpen} toggle={this.toggleSubmitCommentModal}>
+                        <ModalHeader toggle={this.toggleSubmitCommentModal}>Submit Comment</ModalHeader>
+                        <ModalBody>
+                        <LocalForm onSubmit={(values) => (this.handleComment)}>
+                                <Row className="form-group">
+                                    <Label htmlFor="rating">Rating</Label>
+                                    <Control.select model=".rating" name="rating" className="form-control" placeholder="chose Rating">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </Control.select>
+                                </Row>
+                                <Row className="form-group">
+                                    <Label htmlFor="yourname">Your Name</Label>
+                                    <Control.text model=".yourname" id="yourname" name="yourname" placeholder="Your Name"className="form-control"
+                                        validators={{
+                                            required, minLength: minLength(3), maxLength: maxLength(15)
+                                        }}
+                                         />
+                                    <Errors
+                                        className="text-danger" model=".firstname" show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            minLength: 'Must be greater than 2 characters',
+                                            maxLength: 'Must be 15 characters or less'
+                                        }}
+                                        />
+                                </Row>
+                                <Row className="form-group">
+                                    <Label htmlFor="comment">Comment</Label>
+                                    <Control.textarea model=".comment" name="comment" id="comment" placeholder="Write your Comment here..." rows="6" className="form-control"/>
+                                </Row>
+                                <Row className="form-group">
+                                    <Button type="submit" color="primary">
+                                        Submit
+                                    </Button>
+                                </Row>
+                            </LocalForm>
+                        </ModalBody>
+                    </Modal>
+                </div>
+            );
+        }   //end-render
+    }   //end-CommentForm */
     
     function RenderComments({comments}) {
         const replies =  comments.map( (comet) => {
@@ -62,11 +149,12 @@ import { Link } from 'react-router-dom';
             <div>
                 <h1>Comments</h1>
                 <div tag="ul">{replies}</div>
+                <CommentForm />
             </div>
 
         );
     }
-  
+
     const  DishDetail = (props) => {
         if (props.dish != null) {
 
